@@ -15,7 +15,9 @@ const cli = meow(`
       --ios -i Specify iOS file
 
     Examples
-      $ string-it resultfile -a android.strings -i ios.strings
+      $ string-it resultfile -a strings.xml -i Localizable.strings
+      $ string-it resultfile -a strings.xml
+      $ string-it resultfile  -i Localizable.strings
 `, {
 	flags: {
 		a: {
