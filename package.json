@@ -1,0 +1,22 @@
+{
+  "name": "mobile-strings",
+  "version": "1.0.0",
+  "description": "Command line tool to merge android and iOS string files in one csv",
+  "author": "Cláudio Ribeiro",
+  "license": "ISC",
+  "main": "index.js",
+  "bin": {
+    "string-it": "./cli.js"
+  },
+  "dependencies": {
+    "csv-writer": "^1.2.0",
+    "fs-extra": "^4.0.1",
+    "glob": "^7.1.2",
+    "i18n-strings-files": "^1.0.2",
+    "meow": "^5.0.0",
+    "xml2js": "^0.4.19"
+  },
+  "engines": {
+    "node": "6"
+  }
+}
