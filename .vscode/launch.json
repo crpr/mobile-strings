@@ -10,7 +10,7 @@
             "name": "Merge Files",
             "program": "${workspaceFolder}/cli.js",
             "args": [
-                "result.csv", "-i", "./Localizable.strings", "-a", "./strings.xml"
+                "result", "-i", "./Localizable.strings", "-a", "./strings.xml"
             ]
         },
         {
@@ -19,7 +19,7 @@
             "name": "iOS Only",
             "program": "${workspaceFolder}/cli.js",
             "args": [
-                "result.csv", "-i", "./Localizable.strings"
+                "result", "-i", "./Localizable.strings"
             ]
         },
         {
@@ -28,7 +28,7 @@
             "name": "Android Only",
             "program": "${workspaceFolder}/cli.js",
             "args": [
-                "result.csv", "-a", "./strings.xml"
+                "result", "-a", "./strings.xml"
             ]
         }
     ]
