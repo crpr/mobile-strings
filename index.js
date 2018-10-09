@@ -134,10 +134,18 @@ function mergeRecords(aStrings, iStrings) {
         })
 
         if(foundKey) {
-            records.push({ key: string.key, ios_value: string.ios_value, ios_only: false, android_value: foundKey.android_value, android_only: false,
-                 identical: string.ios_value === foundKey.android_value})
+            var record = { key: string.key, ios_value: string.ios_value, ios_only: false, android_value: foundKey.android_value, android_only: false }
+            
+            if(!string.ios_value.match(/%[@,d,i,f,s, 0-9, a-z, A-Z]/g)) {
+                record.identical = string.ios_value === foundKey.android_value
+                record.placeholder = false
+            } else {
+                record.placeholder = true
+            }
+
+            records.push(record)
         } else {
-            records.push({ key: string.key, ios_value: string.ios_value, ios_only: true, android_only: false, identical: false})
+            records.push({ key: string.key, ios_value: string.ios_value, ios_only: true, android_only: false})
         }
     })
 
@@ -156,10 +164,18 @@ function mergeRecords(aStrings, iStrings) {
         })
 
         if(foundKey) {
-            records.push({ key: string.key, ios_value: string.ios_value, ios_only: false, android_value: foundKey.android_value, android_only: false,
-                 identical: string.ios_value === foundKey.android_value})
+            var record = { key: string.key, ios_value: string.ios_value, ios_only: false, android_value: foundKey.android_value, android_only: false }
+
+            if(!string.android_value.match(/%[@,d,i,f,s, 0-9, a-z, A-Z]/g)) {
+                record.identical = string.ios_value === foundKey.android_value
+                record.placeholder = false
+            } else {
+                record.placeholder = true
+            }
+
+            records.push(record)
         } else {
-            records.push({ key: string.key, android_value: string.android_value, ios_only: false, android_only: true, identical: false})
+            records.push({ key: string.key, android_value: string.android_value, ios_only: false, android_only: true})
         }
     })
 
@@ -175,7 +191,8 @@ function mergeFiles(aStrings, iStrings, fileName) {
             {id: 'ios_only', title: 'IOS_ONLY'},
             {id: 'android_value', title: 'ANDROID_VALUE'},
             {id: 'android_only', title: 'ANDROID_ONLY'},
-            {id: 'identical', title: 'IDENTICAL'}
+            {id: 'identical', title: 'IS_IDENTICAL'},
+            {id: 'placeholder', title: 'IS_PLACEHOLDER'}
         ]
     });
   
