@@ -4,6 +4,7 @@ const fs = require('fs-extra')
 const i18nStringsFiles = require('i18n-strings-files');
 const parseString = require('xml2js').parseString;
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const csv = require('csv-parser');
 
 var iosStrings = undefined
 var androidStrings = undefined
@@ -12,7 +13,6 @@ const defaultiOSFileName = "Localizable.strings"
 const defaultAndroidFileName = "strings.xml"
 
 const filesToCsv = {
-
     convert(file) {
         if(file.endsWith(defaultiOSFileName)) {
             return new Promise((res, rej) => {
@@ -59,9 +59,52 @@ const filesToCsv = {
         if(androidStrings != undefined && iosStrings != undefined) {
             mergeFiles(androidStrings, iosStrings, resultFileName)
         }
-    }
+    },
 
+    loadCsvFile(fileName) {
+        return new Promise((res, rej) => {
+                const results = [];
+                fs.createReadStream(fileName)
+                    .pipe(csv({raw:true}))
+                    .on('data', (r) => {
+                        results.push(r)
+                    })
+                    .on('end', () => {
+                        if(results.length == 0) {
+                            console.log("Rejecting");
+                            rej();
+                        }
+                        res(results)
+                    });
+        });
+    },
+
+    generateiOSFile(results) {
+        console.log("Creatinng iOS File")
+        return new Promise((res, rej) => {
+            const rows = {}
+
+            results.forEach(row => {
+                var key = row.KEY
+                rows[key] = row.IOS_VALUE
+            })
+
+            i18nStringsFiles.writeFile(defaultiOSFileName, rows, 'UTF-16', function(err){
+                if(err) rej(err);
+                res(results)
+            });
+        });
+    },
+
+    generateAndroidFile(results) {
+        console.log("Creatinng Android File")
+        return new Promise((res, rej) => {
+            res(results)
+        });
+    }
 }
+
+// GENERATE CSV
 
 function prepareSingleAndroidFile(strings, fileName) {
     const csvAndroidWriter = createCsvWriter({

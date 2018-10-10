@@ -30,6 +30,15 @@
             "args": [
                 "result", "-a", "./strings.xml"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Plarforms",
+            "program": "${workspaceFolder}/cli.js",
+            "args": [
+                "result", "-f", "./result_merged.csv"
+            ]
         }
     ]
 }
